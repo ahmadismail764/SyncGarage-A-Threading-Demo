@@ -47,7 +47,7 @@ public class Car extends Thread {
                 // Wait for a parking slot
                 parkingSlots.acquire();
                 gate.incrementOccupiedSlots();
-                System.out.println("Car " + carId + " from " + gate.getName() + " parked after waiting " + waitCounter + " . (Parking Status: " + Gate.getOccupiedSlots() + " spots occupied)");
+                System.out.println("Car " + carId + " from " + gate.getName() + " parked after waiting for " + waitCounter + " units of time. (Parking Status: " + Gate.getOccupiedSlots() + " spots occupied)");
 
                 // Simulate parking duration
                 Thread.sleep(parkDuration * 1000);
