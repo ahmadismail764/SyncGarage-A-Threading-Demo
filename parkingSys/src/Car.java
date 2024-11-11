@@ -38,11 +38,16 @@ public class Car extends Thread {
                 // Update served car count
                 gate.incrementCarsServed();
             } else {
+                int waitCounter = 0;
                 System.out.println("Car " + carId + " from " + gate.getName() + " waiting for a spot.");
+                while(Gate.getOccupiedSlots() > 3){
+                    Thread.sleep(1000);
+                    waitCounter++;
+                }
                 // Wait for a parking slot
                 parkingSlots.acquire();
                 gate.incrementOccupiedSlots();
-                System.out.println("Car " + carId + " from " + gate.getName() + " parked after waiting. (Parking Status: " + Gate.getOccupiedSlots() + " spots occupied)");
+                System.out.println("Car " + carId + " from " + gate.getName() + " parked after waiting " + waitCounter + " . (Parking Status: " + Gate.getOccupiedSlots() + " spots occupied)");
 
                 // Simulate parking duration
                 Thread.sleep(parkDuration * 1000);
