@@ -22,7 +22,7 @@ public class Main {
         Gate gate3 = new Gate("Gate 3", new ArrayList<>(), parkingLot);
 
         try {
-            cars = readInputFile("input", gate1, gate2, gate3);
+            cars = readInputFile("input.txt", gate1, gate2, gate3);
         } catch (Exception e) {
             e.printStackTrace();
         }
