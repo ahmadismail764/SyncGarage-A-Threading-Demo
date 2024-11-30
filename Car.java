@@ -1,9 +1,8 @@
-
 public class Car extends Thread {
-
-    private final String carId;
-    private final Gate gate;
-    private final int arrivalTime, parkDuration;
+    private String carId;
+    private int arrivalTime;
+    private int parkDuration;
+    private Gate gate;
 
     public Car(Gate gate, String carId, int arrivalTime, int parkDuration) {
         this.gate = gate;
@@ -13,13 +12,14 @@ public class Car extends Thread {
     }
 
     @Override
-    @SuppressWarnings("CallToPrintStackTrace")
     public void run() {
         try {
             Thread.sleep(arrivalTime * 1000);
-            System.out.println("Car " + carId + " from " + gate.getName() + " arrived at time " + arrivalTime);
+            synchronized (ParkingSystemSimulation.PrintLock) {
+                System.out.println("Car " + carId + " from " + gate.getName() + " arrived at time " + arrivalTime);
+            }
+
             boolean parked = false;
-            int waitCounter = 0;
             while (!parked) {
                 synchronized (ParkingSystemSimulation.PrintLock) {
                     if (ParkingSystemSimulation.tryAcquireSpot()) {
@@ -28,18 +28,25 @@ public class Car extends Thread {
                                 + ParkingSystemSimulation.getCurrentCarsInParking() + " spots occupied)");
                         parked = true;
                     } else {
-                        waitCounter++;
+                        System.out.println("Car " + carId + " from " + gate.getName() + " waiting for a spot.");
                     }
                 }
+
+                // الانتظار حتى يتم إشعار السيارة بأن هناك مكان شاغر
                 if (!parked) {
-                    Thread.sleep(1000);
+                    synchronized (ParkingSystemSimulation.parkingLock) {
+                        ParkingSystemSimulation.parkingLock.wait();  // الانتظار حتى يتم تحرير مكان
+                    }
                 }
             }
-            System.out.println("Car " + carId + " from " + gate.getName() + " parked after waiting for " + waitCounter + " units of time.");
+
             Thread.sleep(parkDuration * 1000);
-            ParkingSystemSimulation.releaseSpot();
-            System.out.println("Car " + carId + " from " + gate.getName() + " left after " + parkDuration
-                    + " units of time. (Parking Status: " + (ParkingSystemSimulation.getCurrentCarsInParking()) + " spots occupied)");
+
+            synchronized (ParkingSystemSimulation.PrintLock) {
+                System.out.println("Car " + carId + " from " + gate.getName() + " left after " + parkDuration
+                        + " units of time. (Parking Status: " + (ParkingSystemSimulation.getCurrentCarsInParking() - 1) + " spots occupied)");
+                ParkingSystemSimulation.releaseSpot();
+            }
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
