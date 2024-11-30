@@ -2,28 +2,33 @@
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ParkingSystemSimulation {
-
-    public static final Object PrintLock = new Object();
+    public static final Object PrintLock = new Object();  // عاملين قفل عشان مانشتغلش في عربية غير أما اللي باخد منها الانبوت تخلص
+    public static final Object parkingLock = new Object(); // مسئولة عن فانكشن ال wait , notify  عشان مش كل شوية الثريدز تسال في مكان ولا لا
     private static int totalParkingSpots;
     private static AtomicInteger currentCarsInParking = new AtomicInteger(0);
-    // بيراقب عدد العربيات المركونه
     private static AtomicInteger carsServedByAllGates = new AtomicInteger(0);
-    // بيراقب عدد العربيات اللي اتخدمت من كل البوابات
+
+
 
     public static void initialize(int spots) {
         totalParkingSpots = spots;
     }
 
-    public static synchronized boolean tryAcquireSpot() {
-        if (currentCarsInParking.get() < totalParkingSpots) {// لو العربيات المركونه أقل من 4 بخليه يركن
-            currentCarsInParking.incrementAndGet();
-            return true;
+    public static boolean tryAcquireSpot() {
+        synchronized (parkingLock) {
+            if (currentCarsInParking.get() < totalParkingSpots) {
+                currentCarsInParking.incrementAndGet();
+                return true;
+            }
+            return false;
         }
-        return false;// لو أكبر من أو يساوي 4 مبخليهوش يركن
     }
 
-    public static synchronized void releaseSpot() {
-        currentCarsInParking.decrementAndGet();
+    public static void releaseSpot() {
+        synchronized (parkingLock) {
+            currentCarsInParking.decrementAndGet();
+            parkingLock.notify();
+        }
     }
 
     public static int getCurrentCarsInParking() {
