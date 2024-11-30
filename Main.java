@@ -1,4 +1,3 @@
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -7,8 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
-
-    @SuppressWarnings("CallToPrintStackTrace")
     public static void main(String[] args) {
         File input = new File("input.txt");
         List<Car> cars = new ArrayList<>();
@@ -18,7 +15,7 @@ public class Main {
             return;
         }
 
-        // Initialize shared resources
+        // Initialize shared resources (semaphore)
         ParkingSystemSimulation.initialize(4); // 4 parking slots
 
         Gate gate1 = new Gate("Gate 1", new ArrayList<>());
@@ -63,12 +60,13 @@ public class Main {
                 Gate assignedGate;
                 assignedGate = switch (gateName) {
                     case "1" ->
-                        gate1;
+                            gate1;
                     case "2" ->
-                        gate2;
+                            gate2;
                     default ->
-                        gate3;
+                            gate3;
                 };
+
                 Car car = new Car(assignedGate, carId, arrivalTime, parkDuration);
                 carList.add(car);
                 assignedGate.addCar(car);
