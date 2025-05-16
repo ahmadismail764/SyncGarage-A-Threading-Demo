@@ -27,7 +27,7 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        // بخلي كل واحده تبدأ وتعمل جوين منفصله 
+        // Let each one start and join separately
         gate1.startCarThreads();
         gate2.startCarThreads();
         gate3.startCarThreads();
