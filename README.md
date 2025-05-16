@@ -1,52 +1,54 @@
-# Multithreaded Parking System Simulation
+# 🚗 Multithreaded Parking Lot Simulation: Where Concurrency Meets the Curb
 
-This project simulates a parking system using multithreading and semaphores to control access to a limited number of parking spots. Cars arrive at different gates with varying arrival times and parking durations, managed through synchronized threads.
+Welcome to a hands-on, real-world demonstration of multithreading and synchronization! This project simulates a bustling parking lot, where cars arrive at different gates, compete for limited spots, and show off the power of semaphores and threads in action.
 
-## Project Overview
+## 🏁 Project Overview
 
-The parking lot in this simulation has **4 spots** and **3 gates**. Cars arrive at specific times, attempt to park, stay for a defined duration, and then exit. The program coordinates the parking spots among arriving cars, ensuring proper synchronization and accurate status reporting of the lot's occupancy and car activity.
+Imagine a parking lot with **4 spots** and **3 gates**. Cars arrive at scheduled times, try to park, stay for a set duration, and then leave. The system ensures that no more than four cars are parked at once, and every arrival, wait, and departure is managed with precision.
 
-### Objectives
+## 🚦 Key Features
 
-- **Thread Synchronization**: Use semaphores to manage parking spot access.
-- **Concurrency Management**: Handle concurrent arrivals and departures efficiently.
-- **Realistic Simulation**: Simulate car arrivals, parking, and departure timing.
-- **Status Reporting**: Track the number of cars currently parked and report the total served at each gate.
+- **Thread Synchronization**: Seamless use of semaphores to control parking spot access.
+- **Concurrency Management**: Handles simultaneous arrivals and departures with ease.
+- **Realistic Simulation**: Cars arrive, park, and leave according to a real schedule.
+- **Live Status Reporting**: Always know how many cars are parked and how many each gate has served.
 
-### System Specifications
+## 🛠️ System Specs
 
-- **Parking Spots**: Total of 4 spots available.
-- **Gates**: 3 gates (Gate 1, Gate 2, Gate 3).
-- **Car Arrival**: Cars arrive at each gate per a predefined schedule.
+- **Parking Spots**: 4 total
+- **Gates**: 3 (Gate 1, Gate 2, Gate 3)
+- **Car Arrivals**: Predefined schedule per gate
 
-### Implementation Details
+## ⚙️ How It Works
 
-- **Arrival Times**: Use `Thread.sleep()` to simulate car arrival times.
-- **Parking Duration**: Each car parks for a specified time using `Thread.sleep()`.
-- **Concurrency Control**: Manage spot allocation with a semaphore to prevent race conditions.
-- **Input Format**: Read car data from a text file with entries specifying the gate, car ID, arrival time, and parking duration.
+- **Arrival Times**: Simulated with `Thread.sleep()` for realism.
+- **Parking Duration**: Each car parks for a set time, also using `Thread.sleep()`.
+- **Concurrency Control**: A semaphore ensures no spot is double-booked.
+- **Input**: Car data is read from a text file (gate, car ID, arrival time, parking duration).
 
-## Classes and Methods
+## 🧩 Core Classes
 
-### `Gate` Class
-Represents each gate in the parking lot. Each gate manages its car queue and parking spot allocation.
-- **Attributes**:
-  - `gateName`: Identifier for the gate (e.g., "Gate 1").
-  - `cars`: List of `Car` objects queued at the gate.
-  - `parkingSlots`: Semaphore controlling parking spot access.
-- **Methods**:
-  - `startCarThreads()`: Initializes car threads for the gate.
-  - `joinAllThread()`: Joins threads after completion.
+### `Gate`
 
-### `Car` Class
-Each car is represented by a thread that simulates arrival, waiting, parking, and departure.
-- **Attributes**:
-  - `carId`, `arrivalTime`, `parkDuration`: Car details for simulation.
-  - `parkingSlots`: Semaphore to manage parking access.
-- **Method**:
-  - `run()`: Main logic for car activity, including waiting for parking spots, parking, and leaving.
+Represents a parking lot gate. Each manages its own car queue and parking spot allocation.
 
-### `Main` Class
-Entry point for the simulation. It:
-- Reads input from a file to initialize cars and gates.
-- Calls methods to start and manage car threads.
+- **Attributes**: `gateName`, `cars` (queue), `parkingSlots` (semaphore)
+- **Methods**: `startCarThreads()`, `joinAllThread()`
+
+### `Car`
+
+Each car is a thread: it arrives, waits, parks, and leaves.
+
+- **Attributes**: `carId`, `arrivalTime`, `parkDuration`, `parkingSlots`
+- **Method**: `run()` (the car's journey)
+
+### `Main`
+
+The simulation's entry point:
+
+- Reads input, initializes cars and gates
+- Starts and manages all car threads
+
+---
+
+Ready to see concurrency in action? 🚦 Start the simulation and watch as cars compete for parking, all while threads and semaphores keep the chaos in check!
