@@ -1,4 +1,4 @@
-# 🚗 Multithreaded Parking Lot Simulation: Where Concurrency Meets the Curb
+# 🚗 SyncGarage: Where Concurrency Meets the Curb
 
 Welcome to a hands-on, real-world demonstration of multithreading and synchronization! This project simulates a bustling parking lot, where cars arrive at different gates, compete for limited spots, and show off the power of semaphores and threads in action.
 
